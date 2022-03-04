@@ -34,7 +34,84 @@ Luego puedes comprobar si el comando funciono ejecutando
 az redis list --resource-group platzi-redis
 ```
 
-# Crear variables en redis:
+# Como Conectarse a redis desde una terminal, fuera del azure portal
+
+Antes de iniciar, se necesita un cliente de redis. En este caso puede usarse redis-tools desde WSL o Linux.
+
+```bash	
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install redis-tools
+```
+
+El puerto por sin seguridad es 6379, es el puerto sin ssl.
+
+[Tutorial de usar SSL](https://www.digitalocean.com/community/tutorials/how-to-connect-to-managed-redis-over-tls-with-stunnel-and-redis-cli)
+
+
+## Busca la contraseña y el host [name].redis.cache.windows.net
+
+![En la sección key vault puedes ver la conección](./img/connect.PNG)
+
+```bash
+redis-cli -h server -p 6379 -a xxxxxxxxKEYxxxxxxx
+```
+
+# Acciones con la terminal de redis
+
+Algunos comandos basicos de redis
+
+## Crear variables en redis:
+
+```bash
+set hola "Hola mundo"
+get hola
+
+```
+
+## Crear listas en redis:
+
+```bash
+# Agrega valores a una lista
+lpush lista 1 2 3 4
+# Obtiene  los valores de una lista en un rango
+lrange lista 0 -1
+# Elimina los valores de una lista
+lrem lista 0 1
+
+```
+
+## Crear hashes en redis:
+
+```bash
+# Agrega múltiples atributos a un hash
+hmset estudiante:48 name "Doctor Who" age 25 average 4.9
+# Obtiene  los valores de un atributo de un hash
+hget estudiante:48 name
+hget estudiante:48 age
+hget estudiante:48 average
+# Obtiene todos los atributos de un hash
+hgetall estudiante:48
+# Obtiene las keys de un hash
+hkeys estudiante:48
+# Obtiene las values de un hash
+hvals estudiante:48
+```
+### Donde ver todos los comandos de redis?
+[https://redis.io/commands](https://redis.io/commands)
+
+# Instrucciones fundamentales de redis
+
+Estas son acciones y otros comandos basicos de redis.
+
+```bash	
+# Elimina una variable
+del hola
+# Expira una variable
+expire hola 10
+# Obtiene el tiempo de expiración de una variable
+ttl hola
+```
 
 # Ejercicios del curso de platzi
 
