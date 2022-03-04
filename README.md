@@ -6,6 +6,12 @@ NOTA:
 
 2. node-redis no soporta el comando sendCommand
 
+# Ventajas de Redis
+
+1. Se ejecuta en RAM
+
+2. Guarda todo como strings pero es inteligente para detectar tipos de datos
+
 # Como crear una base de datos en redis?
 
 ## En Azure Portal
@@ -49,13 +55,17 @@ El puerto por sin seguridad es 6379, es el puerto sin ssl.
 [Tutorial de usar SSL](https://www.digitalocean.com/community/tutorials/how-to-connect-to-managed-redis-over-tls-with-stunnel-and-redis-cli)
 
 
-## Busca la contraseña y el host [name].redis.cache.windows.net
+## Busca la contraseña y el host [hostname].redis.cache.windows.net
 
 ![En la sección key vault puedes ver la conección](./img/connect.PNG)
+
+Luego en tu terminal escribes:
 
 ```bash
 redis-cli -h server -p 6379 -a xxxxxxxxKEYxxxxxxx
 ```
+
+Puedes usar la primary key o secondary key.
 
 # Acciones con la terminal de redis
 
@@ -112,6 +122,37 @@ expire hola 10
 # Obtiene el tiempo de expiración de una variable
 ttl hola
 ```
+
+## Comandos anidados
+
+Útiles para temas de optimización para hacer en un solo request obtener los mismos resultados haciendo una latencia muy baja para obtener datos.
+
+```bash
+# getset
+getset platzi-multi "Otro valor"
+> (nil)
+get platzi-multi
+> "Otro valor"
+getset platzi-multi "Ya existe"
+> "Otro valor"
+getset platzi-multi "ya existe de nuevo"
+> "Ya existe"
+mset platzi-rtp "rtp" platzi-rtc "rtc"
+> OK
+mget platzi-rtp platzi-rtc
+> 1) "rtp"
+2) "rtc"
+incr platzi-uno
+> 2
+incrby platzi-uno 99
+> 101
+decr platzi-uno
+> 100
+decrby platzi-uno 99
+> 1
+```
+
+# Clase pendiente: Arquitectura para manejos de cache con redis
 
 # Ejercicios del curso de platzi
 
